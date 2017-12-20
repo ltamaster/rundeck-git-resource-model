@@ -46,10 +46,10 @@ You need to set up the following options to use the plugin:
 If `yes`, require remote host SSH key is defined in the `~/.ssh/known_hosts` file, otherwise do not verify.
 * **SSH Key Path**: SSH Key Path to authenticate
 
-The first method of authentication is the private key, if the private key is not defined, it will take the password. 
+The first method of authentication is the private key.If the private key is not defined, it will take the password. 
 
-* The primary key will work with SSH protocol on Git URL. 
-* The password will work with http/https protocol on git URL (the most of the case, the username is needed on the URI, eg: `http[s]://username@host.xz[:port]/path/to/repo.git/`  when you use password authentication)
+* The primary key will work with SSH protocol on the Git URL. 
+* The password will work with http/https protocol on the Git URL (the most of the case, the username is needed on the URI, eg: `http[s]://username@host.xz[:port]/path/to/repo.git/`  when you use password authentication)
 
 ## Limitations
 
