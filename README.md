@@ -54,4 +54,5 @@ The first method of authentication is the private key.If the private key is not 
 ## Limitations
 
 * The plugin needs to clone the full repo on the local directory path (Base Directory option) to get the file that will be added to the resource model.
+* Any time that you edit the nodes on the GUI, the commit will be perfomed with the message `Edit node from GUI`  (it is not editable)
 
