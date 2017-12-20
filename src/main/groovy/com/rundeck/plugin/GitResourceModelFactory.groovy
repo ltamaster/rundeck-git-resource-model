@@ -73,16 +73,13 @@ Some examples:
             .property(PropertyUtil.bool(WRITABLE, "Writable",
             "Allow to write the remote file.",
             false,"false",null,renderingOptionsConfig))
+            .property(PropertyUtil.string(GIT_PASSWORD_STORAGE, "Git Password", 'Password to authenticate remotely', false,
+            null,null,null, renderingOptionsAuthenticationPassword))
             .property(PropertyUtil.select(GIT_HOSTKEY_CHECKING, "SSH: Strict Host Key Checking", '''Use strict host key checking.
 If `yes`, require remote host SSH key is defined in the `~/.ssh/known_hosts` file, otherwise do not verify.''', false,
             "yes",GitResourceModelFactory.LIST_HOSTKEY_CHECKING,null, renderingOptionsAuthentication))
             .property(PropertyUtil.string(GIT_KEY_STORAGE, "SSH Key Path", 'SSH Key Path', false,
             null,null,null, renderingOptionsAuthentication))
-            .property(PropertyUtil.string(GIT_PASSWORD_STORAGE, "Git Password", '''Password to authenticate remotely (e.g. for SSH or HTTPS URLs).
-Path can include variable references
-* `${user.login}` login name of logged in user
-* `${project}` current project name''', false,
-            null,null,null, renderingOptionsAuthenticationPassword))
             .build()
 
 
