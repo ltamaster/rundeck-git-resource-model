@@ -21,6 +21,8 @@ Copy the `rundeck-git-plugin-x.y.x.jar` file to the `$RDECK_BASE/libext/` direct
 
 You need to set up the following options to use the plugin:
 
+![](settings.png)
+
 ### Repo Settings
 
 * **Base Directory**: Directory for checkout
