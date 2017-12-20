@@ -67,9 +67,9 @@ Some examples:
             .property(PropertyUtil.string(GIT_BRANCH, "Branch", "Checkout branch.", true,
             "master",null,null, renderingOptionsConfig))
             .property(PropertyUtil.string(GIT_FILE, "Resource model File", "Resource model file inside the github repo.", true,
-            "master",null,null, renderingOptionsConfig))
+            null,null,null, renderingOptionsConfig))
             .property(PropertyUtil.select(GIT_FORMAT_FILE, "File Format", 'File Format', true,
-            "yes",GitResourceModelFactory.LIST_FILE_TYPE,null, renderingOptionsConfig))
+            "xml",GitResourceModelFactory.LIST_FILE_TYPE,null, renderingOptionsConfig))
             .property(PropertyUtil.bool(WRITABLE, "Writable",
             "Allow to write the remote file.",
             false,"false",null,renderingOptionsConfig))
@@ -77,12 +77,12 @@ Some examples:
 If `yes`, require remote host SSH key is defined in the `~/.ssh/known_hosts` file, otherwise do not verify.''', false,
             "yes",GitResourceModelFactory.LIST_HOSTKEY_CHECKING,null, renderingOptionsAuthentication))
             .property(PropertyUtil.string(GIT_KEY_STORAGE, "SSH Key Path", 'SSH Key Path', false,
-            "master",null,null, renderingOptionsAuthentication))
+            null,null,null, renderingOptionsAuthentication))
             .property(PropertyUtil.string(GIT_PASSWORD_STORAGE, "Git Password", '''Password to authenticate remotely (e.g. for SSH or HTTPS URLs).
 Path can include variable references
 * `${user.login}` login name of logged in user
 * `${project}` current project name''', false,
-            "master",null,null, renderingOptionsAuthenticationPassword))
+            null,null,null, renderingOptionsAuthenticationPassword))
             .build()
 
 
