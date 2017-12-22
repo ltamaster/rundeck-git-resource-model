@@ -23,25 +23,25 @@ class GitResourceModel implements ResourceModelSource , WriteableModelSource{
     private Framework framework;
     private boolean writable=false;
 
-    String branch
     String extension
     String fileName
-    String gitURL
     String localPath
 
     GitManager gitManager
+
+    void setWritable(){
+        this.writable=true;
+    }
+
 
     GitResourceModel(Properties configuration, Framework framework) {
         this.configuration = configuration
         this.framework = framework
 
-        this.branch = configuration.getProperty(GitResourceModelFactory.GIT_BRANCH)
         this.extension=configuration.getProperty(GitResourceModelFactory.GIT_FORMAT_FILE)
         this.writable=Boolean.valueOf(configuration.getProperty(GitResourceModelFactory.WRITABLE))
         this.fileName=configuration.getProperty(GitResourceModelFactory.GIT_FILE)
-        this.gitURL=configuration.getProperty(GitResourceModelFactory.GIT_URL)
         this.localPath=configuration.getProperty(GitResourceModelFactory.GIT_BASE_DIRECTORY)
-
 
         if(gitManager==null){
             gitManager = new GitManager(configuration)
@@ -52,7 +52,7 @@ class GitResourceModel implements ResourceModelSource , WriteableModelSource{
     @Override
     INodeSet getNodes() throws ResourceModelSourceException {
 
-        InputStream remoteFile = getFile();
+        InputStream remoteFile = gitManager.getFile(this.localPath);
 
         final ResourceFormatParser parser;
         try {
@@ -72,30 +72,6 @@ class GitResourceModel implements ResourceModelSource , WriteableModelSource{
 
         return null
     }
-
-
-    private InputStream getFile() {
-
-        File base = new File(localPath)
-
-        if(!base){
-            base.mkdir()
-        }
-
-        //start the new repo, if the repo is create nothing will be done
-        gitManager.cloneOrCreate(base, this.gitURL)
-
-        File file = new File(localPath+"/"+fileName)
-
-        //always perform a pull
-        //TODO: check if it is needed check for the repo status
-        //and performe the pull when the last commit is differente to the last commit on the local repo
-        gitManager.gitPull()
-
-        return file.newInputStream()
-
-    }
-
 
     private ResourceFormatParser getResourceFormatParser() throws UnsupportedFormatException {
         return framework.getResourceFormatParserService().getParserForMIMEType(getMimeType());
@@ -138,7 +114,7 @@ class GitResourceModel implements ResourceModelSource , WriteableModelSource{
             return 0;
         }
 
-        InputStream inputStream = getFile()
+        InputStream inputStream = gitManager.getFile(this.localPath)
 
         return Streams.copyStream(inputStream, sink)
     }
@@ -146,7 +122,7 @@ class GitResourceModel implements ResourceModelSource , WriteableModelSource{
     @Override
     boolean hasData() {
         try{
-            getFile();
+            gitManager.getFile(this.localPath);
         }catch (Exception e){
             return false;
         }
@@ -187,6 +163,7 @@ class GitResourceModel implements ResourceModelSource , WriteableModelSource{
 
     @Override
     public String getSourceDescription() {
-        return "Git repo: "+this.gitURL+", file:"+this.fileName;
+        String gitURL=configuration.getProperty(GitResourceModelFactory.GIT_URL)
+        return "Git repo: "+gitURL+", file:"+this.fileName;
     }
 }

@@ -31,8 +31,10 @@ class GitManager {
     String strictHostKeyChecking
     String sshPrivateKeyPath
     String gitPassword
+    String gitURL
 
     GitManager(Properties configuration) {
+        this.gitURL=configuration.getProperty(GitResourceModelFactory.GIT_URL)
         this.branch = configuration.getProperty(GitResourceModelFactory.GIT_BRANCH)
         this.fileName=configuration.getProperty(GitResourceModelFactory.GIT_FILE)
         this.strictHostKeyChecking=configuration.getProperty(GitResourceModelFactory.GIT_HOSTKEY_CHECKING)
@@ -187,6 +189,27 @@ class GitManager {
 
     }
 
+    InputStream getFile(String localPath) {
+
+        File base = new File(localPath)
+
+        if(!base){
+            base.mkdir()
+        }
+
+        //start the new repo, if the repo is create nothing will be done
+        this.cloneOrCreate(base, gitURL)
+
+        File file = new File(localPath+"/"+fileName)
+
+        //always perform a pull
+        //TODO: check if it is needed check for the repo status
+        //and perform the pull when the last commit is different to the last commit on the local repo
+        this.gitPull()
+
+        return file.newInputStream()
+
+    }
 
 
 }
